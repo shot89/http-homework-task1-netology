@@ -14,6 +14,7 @@ import java.util.List;
 public class Main {
     public static final String REMOTE_SERVICE_URI = "https://raw.githubusercontent.com/netology-code/jd-homeworks/master/http/task1/cats";
     public static ObjectMapper mapper = new ObjectMapper();
+
     public static void main(String[] args) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create()
                 .setDefaultRequestConfig(RequestConfig.custom()
@@ -25,11 +26,11 @@ public class Main {
 
         HttpGet request = new HttpGet(REMOTE_SERVICE_URI);
 
-        try (CloseableHttpResponse response = httpClient.execute(request)){
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
             List<FactsAboutCats> facts = mapper.readValue(
                     response.getEntity().getContent(),
                     new TypeReference<>() {
-            });
+                    });
             facts.stream()
                     .filter(value -> value.getUpvotes() != null && value.getUpvotes() > 0)
                     .forEach(System.out::println);
